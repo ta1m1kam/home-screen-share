@@ -1,6 +1,109 @@
 <template>
-  <div>
-    <p>Nuxt News</p>
-    <md-button>Submit</md-button>
+  <div class="md-layout md-alignment-center" style="margin: 4em 0">
+    <md-toolbar class="fixed-toolbar" elevation="1">
+      <md-button class="md-icon-button">
+        <md-icon>menu</md-icon>
+      </md-button>
+      <nuxt-link class="md-primary md-title" to="/">
+        HomeScreenShare
+      </nuxt-link>
+      <div class="md-toolbar-section-end">
+        <md-button to="#">
+          Login
+        </md-button>
+
+        <md-button to="#">
+          Register
+        </md-button>
+      </div>
+    </md-toolbar>
+    <div class="md-layout md-alignment-center">
+      <div class="md-layout-item md-size-95">
+        <md-content class="md-layout md-gutter" style="background: #007998; padding: 1em;">
+          <ul class="md-layout-item md-large-size-25 md-medium-size-33 md-small-size-50 md-xsmall-size-100">
+            <md-ripple>
+              <md-card style="margin-top: 1em;" md-width-hover>
+                <md-card-media>
+                  <img src="https://upload.wikimedia.org/wikipedia/commons/8/8d/President_Barack_Obama.jpg" alt="">
+                </md-card-media>
+                <md-card-actions>
+                  <md-button class="md-icon-button">
+                    <md-icon>bookmark</md-icon>
+                  </md-button>
+                  <md-button class="md-icon-button">
+                    <md-icon>message</md-icon>
+                  </md-button>
+                </md-card-actions>
+              </md-card>
+            </md-ripple>
+          </ul>
+
+          <ul class="md-layout-item md-large-size-25 md-medium-size-33 md-small-size-50 md-xsmall-size-100">
+            <md-ripple>
+              <md-card style="margin-top: 1em;" md-width-hover>
+                <md-card-media>
+                  <img src="https://upload.wikimedia.org/wikipedia/commons/8/8d/President_Barack_Obama.jpg" alt="">
+                </md-card-media>
+                <md-card-actions>
+                  <md-button class="md-icon-button">
+                    <md-icon>bookmark</md-icon>
+                  </md-button>
+                  <md-button class="md-icon-button">
+                    <md-icon>message</md-icon>
+                  </md-button>
+                </md-card-actions>
+              </md-card>
+            </md-ripple>
+          </ul>
+
+          <ul class="md-layout-item md-large-size-25 md-medium-size-33 md-small-size-50 md-xsmall-size-100">
+            <md-ripple>
+              <md-card style="margin-top: 1em;" md-width-hover>
+                <md-card-media>
+                  <img src="https://upload.wikimedia.org/wikipedia/commons/8/8d/President_Barack_Obama.jpg" alt="">
+                </md-card-media>
+                <md-card-actions>
+                  <md-button class="md-icon-button">
+                    <md-icon>bookmark</md-icon>
+                  </md-button>
+                  <md-button class="md-icon-button">
+                    <md-icon>message</md-icon>
+                  </md-button>
+                </md-card-actions>
+              </md-card>
+            </md-ripple>
+          </ul>
+
+          <ul class="md-layout-item md-large-size-25 md-medium-size-33 md-small-size-50 md-xsmall-size-100">
+            <md-ripple>
+              <md-card style="margin-top: 1em;" md-width-hover>
+                <md-card-media>
+                  <img src="https://upload.wikimedia.org/wikipedia/commons/8/8d/President_Barack_Obama.jpg" alt="">
+                </md-card-media>
+                <md-card-actions>
+                  <md-button class="md-icon-button">
+                    <md-icon>bookmark</md-icon>
+                  </md-button>
+                  <md-button class="md-icon-button">
+                    <md-icon>message</md-icon>
+                  </md-button>
+                </md-card-actions>
+              </md-card>
+            </md-ripple>
+          </ul>
+        </md-content>
+      </div>
+    </div>
   </div>
 </template>
+
+<style>
+.small-icon {
+  font-size: 18px !important;
+}
+.fixed-toolbar {
+  position: fixed;
+  top: 0;
+  z-index: 100;
+}
+</style>
