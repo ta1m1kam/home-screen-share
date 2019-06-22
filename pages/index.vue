@@ -8,13 +8,17 @@
         HomeScreenShare
       </nuxt-link>
       <div class="md-toolbar-section-end">
-        <md-button to="#">
-          Login
-        </md-button>
-
-        <md-button to="/register">
-          Register
-        </md-button>
+        <template v-if="isAuthenticated">
+          <md-button>
+            <md-avatar><img :src="user.avatar" :alt="user.email"></md-avatar>
+            {{ user.email }}
+          </md-button>
+          <md-button>Logout</md-button>
+        </template>
+        <template v-else>
+          <md-button to="/login">Login</md-button>
+          <md-button to="/register">Register</md-button>
+        </template>
       </div>
     </md-toolbar>
 
@@ -142,12 +146,18 @@ export default {
   data: () => ({
     showLeftSidepanel: false
   }),
-  comuted: {
+  computed: {
     loading() {
       return this.$store.getters.loading
     },
     category() {
       return this.$store.getters.category
+    },
+    isAuthenticated() {
+      return this.$store.getters.isAuthenticated
+    },
+    user() {
+      return this.$store.getters.user
     }
   },
   methods: {
