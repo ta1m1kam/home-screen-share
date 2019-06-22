@@ -1,7 +1,7 @@
 <template>
   <div class="md-layout md-alignment-center" style="margin: 4em 0">
     <md-toolbar class="fixed-toolbar" elevation="1">
-      <md-button class="md-icon-button">
+      <md-button class="md-icon-button" @click="showLeftSidepanel = true">
         <md-icon>menu</md-icon>
       </md-button>
       <nuxt-link class="md-primary md-title" to="/">
@@ -17,6 +17,46 @@
         </md-button>
       </div>
     </md-toolbar>
+
+    <!-- Personal Content -->
+    <md-drawer md-fixed :md-active.sync="showLeftSidepanel">
+      <md-toolbar md-elevation="1">
+        <span class="md-title">Personal Feed</span>
+      </md-toolbar>
+
+      <md-progress-bar v-if="loading" md-mode="indeterminate" />
+
+      <md-field>
+        <label for="category">Category</label>
+        <md-select
+          id="category"
+          :value="category"
+          name="category"
+          @input="changeCategory"
+        >
+          <md-option value="jiei">
+            自営業
+          </md-option>
+          <md-option value="syakai">
+            社会人
+          </md-option>
+          <md-option value="daigaku">
+            大学生
+          </md-option>
+          <md-option value="koukou">
+            高校生
+          </md-option>
+          <md-option value="chugaku">
+            中学生
+          </md-option>
+          <md-option value="syougaku">
+            小学生
+          </md-option>
+        </md-select>
+      </md-field>
+    </md-drawer>
+
+    <!-- Content -->
     <div class="md-layout md-alignment-center">
       <div class="md-layout-item md-size-95">
         <md-content class="md-layout md-gutter" style="background: #007998; padding: 1em;">
@@ -96,6 +136,27 @@
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  data: () => ({
+    showLeftSidepanel: false
+  }),
+  comuted: {
+    loading() {
+      return this.$store.getters.loading
+    },
+    category() {
+      return this.$store.getters.category
+    }
+  },
+  methods: {
+    changeCategory(category) {
+      this.$store.commit('setCategory', category)
+    }
+  }
+}
+</script>
 
 <style>
 .small-icon {
