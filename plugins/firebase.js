@@ -1,10 +1,13 @@
-import firebase from 'firebase/app'
+import firebase from 'firebase'
 import 'firebase/firestore'
 
 if (!firebase.apps.length) {
   const config = {
     apiKey: process.env.FIREBASE_API_KEY,
-    projectId: 'home-screen-share'
+    authDomain: 'home-screen-share.firebaseapp.com',
+    databaseURL: 'https://home-screen-share.firebaseio.com',
+    projectId: 'home-screen-share',
+    storageBucket: 'home-screen-share.appspot.com'
   }
   firebase.initializeApp(config)
   firebase.firestore().settings({
@@ -12,6 +15,4 @@ if (!firebase.apps.length) {
   })
 }
 
-const db = firebase.firestore()
-
-export default db
+export default firebase

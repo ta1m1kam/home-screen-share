@@ -41,6 +41,10 @@
         </md-card-content>
 
         <md-card-actions>
+          <md-button class="md-icon-button md-raised twitter-btn" @click="twitterLoginUser" style="font-size: 20px">
+            <font-awesome-icon :icon="['fab', 'twitter']"/>
+          </md-button>
+
           <md-button to="/login">
             Go to Login
           </md-button>
@@ -60,6 +64,7 @@
 
 <script>
 import { validationMixin } from 'vuelidate'
+
 import {
   required,
   email,
@@ -119,6 +124,11 @@ export default {
         returnSecureToken: true
       })
     },
+    async twitterLoginUser() {
+      await this.$store.dispatch('authenticateUser', {
+        action: 'twitter'
+      })
+    },
     getValidationClass(fieldName) {
       const field = this.$v.form[fieldName]
       if (field) {
@@ -130,3 +140,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.twitter-btn {
+  background-color: dodgerblue !important;
+}
+</style>
