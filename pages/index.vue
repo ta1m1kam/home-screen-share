@@ -12,7 +12,7 @@
           Login
         </md-button>
 
-        <md-button to="#">
+        <md-button to="/register">
           Register
         </md-button>
       </div>

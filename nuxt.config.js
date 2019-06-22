@@ -44,14 +44,30 @@ export default {
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
     '@nuxtjs/pwa',
-    '@nuxtjs/eslint-module'
+    '@nuxtjs/eslint-module',
+    '@nuxtjs/proxy'
   ],
   /*
   ** Axios module configuration
   ** See https://axios.nuxtjs.org/options
   */
   axios: {
+    credentials: true,
+    proxy: true
   },
+
+  proxy: {
+    '/register/': {
+      target:
+        `https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=${process.env.FIREBASE_API_KEY}`,
+      pathRewrite: { '^/register/': '' }
+    }
+  },
+
+  env: {
+    FIREBASE_API_KEY: process.env.FIREBASE_API_KEY
+  },
+
   /*
   ** Build configuration
   */
