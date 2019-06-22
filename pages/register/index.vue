@@ -2,7 +2,9 @@
   <div class="md-layout md-alignment-center-center" style="height: 100vh;">
     <md-card class="md-layout-item md-size-50">
       <md-card-header>
-        <div class="md-title">Register</div>
+        <div class="md-title">
+          Register
+        </div>
       </md-card-header>
 
       <!-- Register Form -->
@@ -11,41 +13,46 @@
           <md-field md-clearable :class="getValidationClass('email')">
             <label for="email">Email</label>
             <md-input
+              id="email"
+              v-model="form.email"
               :disabled="loading"
               type="email"
               name="email"
-              id="email"
               autocomplete="email"
-              v-model="form.email"
             />
-            <span class="md-error" v-if="!$v.form.email.required">The email is required</span>
-            <span class="md-error" v-else-if="!$v.form.email.email">Invalid email</span>
+            <span v-if="!$v.form.email.required" class="md-error">The email is required</span>
+            <span v-else-if="!$v.form.email.email" class="md-error">Invalid email</span>
           </md-field>
 
           <md-field :class="getValidationClass('password')">
             <label for="password">Password</label>
             <md-input
+              id="password"
+              v-model="form.password"
               :disabled="loading"
               type="password"
               name="password"
-              id="password"
               autocomplete="password"
-              v-model="form.password"
             />
-            <span class="md-error" v-if="!$v.form.password.required">The password is required</span>
-            <span class="md-error" v-else-if="!$v.form.password.minLength">Password too short</span>
-            <span class="md-error" v-else-if="!$v.form.password.maxLength">Password too long</span>
+            <span v-if="!$v.form.password.required" class="md-error">The password is required</span>
+            <span v-else-if="!$v.form.password.minLength" class="md-error">Password too short</span>
+            <span v-else-if="!$v.form.password.maxLength" class="md-error">Password too long</span>
           </md-field>
         </md-card-content>
 
         <md-card-actions>
-          <md-button to="/login">Go to Login</md-button>
-          <md-button class="md-primary md-raised" type="submit" :disabled="loading">Submit</md-button>
+          <md-button to="/login">
+            Go to Login
+          </md-button>
+
+          <md-button class="md-primary md-raised" type="submit" :disabled="loading">
+            Submit
+          </md-button>
         </md-card-actions>
       </form>
 
       <md-snackbar :md-active.sync="isAuthenticated">
-        {{form.email}} was successfully registered!
+        {{ form.email }} was successfully registered!
       </md-snackbar>
     </md-card>
   </div>

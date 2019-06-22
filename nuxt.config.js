@@ -1,6 +1,9 @@
 
 export default {
   mode: 'spa',
+  router: {
+    middleware: 'check-auth'
+  },
   /*
   ** Headers of the page
   */
@@ -35,7 +38,8 @@ export default {
   ** Plugins to load before mounting the App
   */
   plugins: [
-    { src: '~/plugins/vue-material' }
+    { src: '~/plugins/vue-material' },
+    { src: '~/plugins/firebase' }
   ],
   /*
   ** Nuxt.js modules
@@ -61,6 +65,11 @@ export default {
       target:
         `https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=${process.env.FIREBASE_API_KEY}`,
       pathRewrite: { '^/register/': '' }
+    },
+    '/login/': {
+      target:
+        `https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=${process.env.FIREBASE_API_KEY}`,
+      pathRewrite: { '^/login/': '' }
     }
   },
 

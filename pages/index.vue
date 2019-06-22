@@ -13,11 +13,16 @@
             <md-avatar><img :src="user.avatar" :alt="user.email"></md-avatar>
             {{ user.email }}
           </md-button>
-          <md-button>Logout</md-button>
+          <md-button @click="logoutUser">Logout</md-button>
         </template>
         <template v-else>
-          <md-button to="/login">Login</md-button>
-          <md-button to="/register">Register</md-button>
+          <md-button to="/login">
+            Login
+          </md-button>
+
+          <md-button to="/register">
+            Register
+          </md-button>
         </template>
       </div>
     </md-toolbar>
@@ -163,6 +168,9 @@ export default {
   methods: {
     changeCategory(category) {
       this.$store.commit('setCategory', category)
+    },
+    logoutUser() {
+      this.$store.dispatch('logoutUser')
     }
   }
 }
