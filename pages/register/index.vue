@@ -41,8 +41,8 @@
         </md-card-content>
 
         <md-card-actions>
-          <md-button class="md-icon-button md-raised twitter-btn" @click="twitterLoginUser" style="font-size: 20px">
-            <font-awesome-icon :icon="['fab', 'twitter']"/>
+          <md-button class="md-icon-button md-raised twitter-btn" style="font-size: 20px;" @click="twitterLoginUser">
+            <font-awesome-icon :icon="['fab', 'twitter']" />
           </md-button>
 
           <md-button to="/login">

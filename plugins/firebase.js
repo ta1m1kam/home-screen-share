@@ -1,5 +1,6 @@
-import firebase from 'firebase'
+import firebase from 'firebase/app'
 import 'firebase/firestore'
+import 'firebase/auth'
 
 if (!firebase.apps.length) {
   const config = {
@@ -10,9 +11,6 @@ if (!firebase.apps.length) {
     storageBucket: 'home-screen-share.appspot.com'
   }
   firebase.initializeApp(config)
-  firebase.firestore().settings({
-    timestampsInSnapshots: true
-  })
 }
 
 export default firebase
