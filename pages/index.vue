@@ -9,13 +9,9 @@
       </nuxt-link>
       <div class="md-toolbar-section-end">
         <template v-if="isAuthenticated">
-          <md-button>
+          <md-button @click="showRightSidepanel = true">
             <md-avatar><img :src="user.avatar" :alt="user.email"></md-avatar>
             {{ user.email }}
-          </md-button>
-
-          <md-button @click="logoutUser">
-            Logout
           </md-button>
         </template>
         <template v-else>
@@ -66,6 +62,22 @@
           </md-option>
         </md-select>
       </md-field>
+    </md-drawer>
+
+    <!-- User menu -->
+    <md-drawer class="md-right" md-fixed :md-active.sync="showRightSidepanel">
+      <md-toolbar :md-elevation="1">
+        <span class="md-title">User menu</span>
+      </md-toolbar>
+
+      <md-progress-bar v-if="loading" md-mode="indeterminate"></md-progress-bar>
+
+      <md-list>
+        <md-subheader class="md-primary">User menu</md-subheader>
+        <md-list-item @click="logoutUser">
+          Logout
+        </md-list-item>
+      </md-list>
     </md-drawer>
 
     <!-- Content -->
@@ -152,7 +164,8 @@
 <script>
 export default {
   data: () => ({
-    showLeftSidepanel: false
+    showLeftSidepanel: false,
+    showRightSidepanel: false
   }),
   computed: {
     loading() {
@@ -173,6 +186,7 @@ export default {
       this.$store.commit('setCategory', category)
     },
     logoutUser() {
+      this.showRightSidepanel = false
       this.$store.dispatch('logoutUser')
     }
   }
