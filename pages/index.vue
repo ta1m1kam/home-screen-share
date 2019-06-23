@@ -74,7 +74,12 @@
 
       <md-list>
         <md-subheader class="md-primary">User menu</md-subheader>
+        <md-list-item to="/home-screen/new">
+          <md-icon>send</md-icon>
+          Post Home Screen
+        </md-list-item>
         <md-list-item @click="logoutUser">
+          <md-icon>exit_to_app</md-icon>
           Logout
         </md-list-item>
       </md-list>

@@ -3,6 +3,7 @@ import firebase from '~/plugins/firebase'
 import { saveUserData, clearUserData } from '~/utils'
 
 const db = firebase.firestore()
+const firestorage = firebase.storage()
 
 export const state = () => ({
   loading: false,
@@ -91,6 +92,17 @@ export const actions = {
     commit('clearToken')
     commit('clearUser')
     clearUserData()
+  },
+  uploadImage(context, payload) {
+    return new Promise((resolve, reject) => {
+      firestorage.ref('images/' + payload.name)
+        .put(payload.file)
+        .then((snapshot) => {
+          snapshot.ref.getDownloadURL().then((url) => {
+            resolve(url)
+          })
+        })
+    })
   }
 }
 
