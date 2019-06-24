@@ -89,65 +89,14 @@
     <div class="md-layout md-alignment-center">
       <div class="md-layout-item md-size-95">
         <md-content class="md-layout md-gutter" style="background: #007998; padding: 1em;">
-          <ul class="md-layout-item md-large-size-25 md-medium-size-33 md-small-size-50 md-xsmall-size-100">
+          <ul
+            v-for="screen in screens"
+            :key="screen.id"
+            class="md-layout-item md-large-size-25 md-medium-size-33 md-small-size-50 md-xsmall-size-100">
             <md-ripple>
               <md-card style="margin-top: 1em;" md-width-hover>
                 <md-card-media>
-                  <img src="https://upload.wikimedia.org/wikipedia/commons/8/8d/President_Barack_Obama.jpg" alt="">
-                </md-card-media>
-                <md-card-actions>
-                  <md-button class="md-icon-button">
-                    <md-icon>bookmark</md-icon>
-                  </md-button>
-                  <md-button class="md-icon-button">
-                    <md-icon>message</md-icon>
-                  </md-button>
-                </md-card-actions>
-              </md-card>
-            </md-ripple>
-          </ul>
-
-          <ul class="md-layout-item md-large-size-25 md-medium-size-33 md-small-size-50 md-xsmall-size-100">
-            <md-ripple>
-              <md-card style="margin-top: 1em;" md-width-hover>
-                <md-card-media>
-                  <img src="https://upload.wikimedia.org/wikipedia/commons/8/8d/President_Barack_Obama.jpg" alt="">
-                </md-card-media>
-                <md-card-actions>
-                  <md-button class="md-icon-button">
-                    <md-icon>bookmark</md-icon>
-                  </md-button>
-                  <md-button class="md-icon-button">
-                    <md-icon>message</md-icon>
-                  </md-button>
-                </md-card-actions>
-              </md-card>
-            </md-ripple>
-          </ul>
-
-          <ul class="md-layout-item md-large-size-25 md-medium-size-33 md-small-size-50 md-xsmall-size-100">
-            <md-ripple>
-              <md-card style="margin-top: 1em;" md-width-hover>
-                <md-card-media>
-                  <img src="https://upload.wikimedia.org/wikipedia/commons/8/8d/President_Barack_Obama.jpg" alt="">
-                </md-card-media>
-                <md-card-actions>
-                  <md-button class="md-icon-button">
-                    <md-icon>bookmark</md-icon>
-                  </md-button>
-                  <md-button class="md-icon-button">
-                    <md-icon>message</md-icon>
-                  </md-button>
-                </md-card-actions>
-              </md-card>
-            </md-ripple>
-          </ul>
-
-          <ul class="md-layout-item md-large-size-25 md-medium-size-33 md-small-size-50 md-xsmall-size-100">
-            <md-ripple>
-              <md-card style="margin-top: 1em;" md-width-hover>
-                <md-card-media>
-                  <img src="https://upload.wikimedia.org/wikipedia/commons/8/8d/President_Barack_Obama.jpg" alt="">
+                  <img :src="screen.downloadURL" alt="">
                 </md-card-media>
                 <md-card-actions>
                   <md-button class="md-icon-button">
@@ -184,8 +133,16 @@ export default {
     },
     user() {
       return this.$store.getters.user
+    },
+    screens() {
+      return this.$store.getters.screenImages
     }
   },
+
+  async fetch({ store }) {
+    await store.dispatch('loadScreenImage')
+  },
+
   methods: {
     changeCategory(category) {
       this.$store.commit('setCategory', category)

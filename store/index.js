@@ -9,7 +9,8 @@ export const state = () => ({
   loading: false,
   category: '',
   token: '',
-  user: null
+  user: null,
+  screenImages: []
 })
 
 export const mutations = {
@@ -26,7 +27,10 @@ export const mutations = {
     state.user = user
   },
   clearToken: state => (state.token = ''),
-  clearUser: state => (state.user = null)
+  clearUser: state => (state.user = null),
+  setScreenImage(state, screenImages) {
+    state.screenImages = screenImages
+  }
 }
 
 export const actions = {
@@ -48,7 +52,7 @@ export const actions = {
         commit('setUser', user)
         commit('setToken', accessToken)
         commit('setLoading', false)
-        const expiresIn = 300
+        const expiresIn = 3000
         saveUserData({ accessToken, expiresIn }, user)
       }).catch(function (error) {
         console.log(error)
@@ -93,16 +97,30 @@ export const actions = {
     commit('clearUser')
     clearUserData()
   },
-  uploadImage(context, payload) {
-    return new Promise((resolve, reject) => {
-      firestorage.ref('images/' + payload.name)
-        .put(payload.file)
-        .then((snapshot) => {
-          snapshot.ref.getDownloadURL().then((url) => {
-            resolve(url)
-          })
+  uploadImage({ state }, payload) {
+    firestorage.ref('images/' + payload.name)
+      .put(payload.file)
+      .then((snapshot) => {
+        console.log(snapshot)
+        snapshot.ref.getDownloadURL().then(async (downloadURL) => {
+          const image = await db.collection('images').add({ downloadURL })
+          const userRef = db.collection(`images/${image.id}/user`)
+          await userRef.doc(state.user.email).set(state.user)
         })
+      })
+  },
+  loadScreenImage({ commit }) {
+    commit('setLoading', true)
+    const imageRef = db.collection('images')
+    imageRef.get().then((querySnapshot) => {
+      console.log(querySnapshot)
+      const loadedScreenImage = []
+      querySnapshot.forEach((doc) => {
+        loadedScreenImage.push(doc.data())
+        this.commit('setScreenImage', loadedScreenImage)
+      })
     })
+    commit('setLoading', false)
   }
 }
 
@@ -111,5 +129,6 @@ export const getters = {
   category: state => state.category,
   token: state => state.token,
   isAuthenticated: state => !!state.token,
-  user: state => state.user
+  user: state => state.user,
+  screenImages: state => state.screenImages
 }

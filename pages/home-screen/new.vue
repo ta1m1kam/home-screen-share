@@ -22,8 +22,8 @@ export default {
       if (file) {
         const fileName = uuid()
 
-        console.log(fileName)
-        console.log(file)
+        // console.log(fileName)
+        // console.log(file)
         this.$store
           .dispatch('uploadImage', {
             name: fileName,
@@ -31,7 +31,6 @@ export default {
           })
           .then((url) => {
             // アップロード完了処理 (ローカルメンバに保存したり)
-            console.log(url)
             this.fileName = fileName
             this.imageUrl = url
           })
