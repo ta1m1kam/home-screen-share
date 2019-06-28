@@ -109,16 +109,16 @@ export const actions = {
         })
       })
   },
-  loadScreenImage({ commit }) {
+  async loadScreenImage({ commit }) {
     commit('setLoading', true)
-    const imageRef = db.collection('images')
+    const imageRef = await db.collection('images')
     imageRef.get().then((querySnapshot) => {
       console.log(querySnapshot)
       const loadedScreenImage = []
       querySnapshot.forEach((doc) => {
         loadedScreenImage.push(doc.data())
-        this.commit('setScreenImage', loadedScreenImage)
       })
+      this.commit('setScreenImage', loadedScreenImage)
     })
     commit('setLoading', false)
   }
