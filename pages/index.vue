@@ -76,6 +76,9 @@
             <span><a :href="screen.url">{{ screen.id }}</a></span>
             <span>View Comments</span>
           </div>
+          <md-button class="md-icon-button md-list-action" @click="removeHomeScreenFromFeed(screen)">
+            <md-icon class="md-accent">delete</md-icon>
+          </md-button>
         </md-list-item>
         <md-divider class="md-inset"></md-divider>
       </md-list>
@@ -179,6 +182,9 @@ export default {
       if (this.user) {
         await this.$store.dispatch('addHomeScreenToFeed', homeScreen)
       }
+    },
+    async removeHomeScreenFromFeed(homeScreen) {
+      await this.$store.dispatch('removeHomeScreenFromFeed', homeScreen)
     }
   }
 }

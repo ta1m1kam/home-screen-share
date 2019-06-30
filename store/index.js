@@ -121,6 +121,10 @@ export const actions = {
       })
     }
   },
+  async removeHomeScreenFromFeed({ state }, homeScreen) {
+    const homeScreenRef = db.collection(`users/${state.user.email}/feed`).doc(homeScreen.id)
+    await homeScreenRef.delete()
+  },
   uploadImage({ state }, payload) {
     firestorage.ref('home_screens/' + payload.name)
       .put(payload.file)
