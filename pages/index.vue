@@ -90,7 +90,7 @@
       <div class="md-layout-item md-size-95">
         <md-content class="md-layout md-gutter" style="background: #007998; padding: 1em;">
           <ul
-            v-for="screen in screens"
+            v-for="screen in homeScreens"
             :key="screen.id"
             class="md-layout-item md-large-size-25 md-medium-size-33 md-small-size-50 md-xsmall-size-100">
             <md-ripple>
@@ -134,13 +134,13 @@ export default {
     user() {
       return this.$store.getters.user
     },
-    screens() {
-      return this.$store.getters.screenImages
+    homeScreens() {
+      return this.$store.getters.homeScreens
     }
   },
 
   async fetch({ store }) {
-    await store.dispatch('loadScreenImages')
+    await store.dispatch('loadHomeScreens')
   },
 
   methods: {

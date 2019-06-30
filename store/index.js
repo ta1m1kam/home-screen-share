@@ -10,8 +10,8 @@ export const state = () => ({
   category: '',
   token: '',
   user: null,
-  screenImages: [],
-  screenImage: null
+  homeScreens: [],
+  homeScreen: null
 })
 
 export const mutations = {
@@ -29,11 +29,11 @@ export const mutations = {
   },
   clearToken: state => (state.token = ''),
   clearUser: state => (state.user = null),
-  setScreenImages(state, screenImages) {
-    state.screenImages = screenImages
+  setHomeScreens(state, homeScreens) {
+    state.homeScreens = homeScreens
   },
-  setScreenImage(state, screenImage) {
-    state.screenImage = screenImage
+  setHomeScreen(state, homeScreen) {
+    state.homeScreen = homeScreen
   }
 }
 
@@ -46,10 +46,8 @@ export const actions = {
       commit('setLoading', true)
       const provider = new firebase.auth.TwitterAuthProvider()
       firebase.auth().signInWithPopup(provider).then(function (result) {
-        console.log(result)
         user = { email: result.additionalUserInfo.username, avatar: result.additionalUserInfo.profile.profile_image_url_https }
         authUserData = result.additionalUserInfo.username
-        console.log(result.additionalUserInfo.username)
         accessToken = result.credential.accessToken
 
         db.collection('users').doc(authUserData).set(user)
@@ -58,6 +56,7 @@ export const actions = {
         commit('setLoading', false)
         const expiresIn = 3000
         saveUserData({ accessToken, expiresIn }, user)
+        return user.email
       }).catch(function (error) {
         console.log(error)
         commit('setLoading', false)
@@ -102,38 +101,35 @@ export const actions = {
     clearUserData()
   },
   uploadImage({ state }, payload) {
-    firestorage.ref('images/' + payload.name)
+    firestorage.ref('home_screens/' + payload.name)
       .put(payload.file)
       .then((snapshot) => {
         console.log(snapshot)
         snapshot.ref.getDownloadURL().then(async (downloadURL) => {
-          const image = await db.collection('images').add({ downloadURL })
-          const userRef = db.collection(`images/${image.id}/user`)
+          const image = await db.collection('home_screens').add({ downloadURL })
+          const userRef = db.collection(`home_screens/${image.id}/user`)
           await userRef.doc(state.user.email).set(state.user)
         })
       })
   },
-  async loadScreenImages({ commit }) {
+  async loadHomeScreens({ commit }) {
     commit('setLoading', true)
-    const imageRef = await db.collection('images')
+    const imageRef = await db.collection('home_screens')
     imageRef.get().then((querySnapshot) => {
-      console.log(querySnapshot)
-      const loadedScreenImages = []
+      const loadedHomeScreens = []
       querySnapshot.forEach((doc) => {
-        console.log(doc.id)
         const screen = { image_url: doc.data().downloadURL, id: doc.id }
-        loadedScreenImages.push(screen)
+        loadedHomeScreens.push(screen)
       })
-      this.commit('setScreenImages', loadedScreenImages)
+      this.commit('setHomeScreens', loadedHomeScreens)
     })
     commit('setLoading', false)
   },
-  async loadScreenImage(context, screenImagesSlug) {
-    const screenImageRef = db.collection('images').doc(screenImagesSlug)
+  async loadHomeScreen(context, homeScreenId) {
+    const screenImageRef = db.collection('home_screens').doc(homeScreenId)
     await screenImageRef.get().then((doc) => {
-      console.log(doc.data())
       const screen = { image_url: doc.data().downloadURL, id: doc.id }
-      this.commit('setScreenImage', screen)
+      this.commit('setHomeScreen', screen)
     })
   }
 }
@@ -144,6 +140,6 @@ export const getters = {
   token: state => state.token,
   isAuthenticated: state => !!state.token,
   user: state => state.user,
-  screenImages: state => state.screenImages,
-  screenImage: state => state.screenImage
+  homeScreens: state => state.homeScreens,
+  homeScreen: state => state.homeScreen
 }

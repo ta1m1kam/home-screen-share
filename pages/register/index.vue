@@ -56,7 +56,7 @@
       </form>
 
       <md-snackbar :md-active.sync="isAuthenticated">
-        {{ form.email }} was successfully registered!
+        successfully registered!
       </md-snackbar>
     </md-card>
   </div>
@@ -79,7 +79,8 @@ export default {
     form: {
       email: '',
       password: ''
-    }
+    },
+    userId: ''
   }),
   validations: {
     form: {
@@ -100,6 +101,9 @@ export default {
     },
     isAuthenticated() {
       return this.$store.getters.isAuthenticated
+    },
+    user() {
+      return this.$store.getters.user
     }
   },
   watch: {
