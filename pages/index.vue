@@ -99,10 +99,10 @@
                   <img :src="screen.image_url" alt="">
                 </md-card-media>
                 <md-card-actions>
-                  <md-button class="md-icon-button">
+                  <md-button @click="addHomeScreenToFeed(screen)" class="md-icon-button">
                     <md-icon>bookmark</md-icon>
                   </md-button>
-                  <md-button @click="saveScreenImage(screen)" class="md-icon-button">
+                  <md-button @click="saveHomeScreen(screen)" class="md-icon-button">
                     <md-icon>message</md-icon>
                   </md-button>
                 </md-card-actions>
@@ -151,10 +151,13 @@ export default {
       this.showRightSidepanel = false
       this.$store.dispatch('logoutUser')
     },
-    saveScreenImage(screen) {
-      // await this.$store.dispatch('saveScreenImage'. screen).then(() =>{
+    saveHomeScreen(screen) {
       this.$router.push(`/home-screen/${screen.id}`)
-      // })
+    },
+    async addHomeScreenToFeed(homeScreen) {
+      if (this.user) {
+        await this.$store.dispatch('addHomeScreenToFeed', homeScreen)
+      }
     }
   }
 }

@@ -11,7 +11,8 @@ export const state = () => ({
   token: '',
   user: null,
   homeScreens: [],
-  homeScreen: null
+  homeScreen: null,
+  feed: []
 })
 
 export const mutations = {
@@ -131,6 +132,10 @@ export const actions = {
       const screen = { image_url: doc.data().downloadURL, id: doc.id }
       this.commit('setHomeScreen', screen)
     })
+  },
+  async addHomeScreenToFeed({ state }, homeScreen) {
+    const feedRef = db.collection(`users/${state.user.email}/feed`).doc(homeScreen.id)
+    await feedRef.set(homeScreen)
   }
 }
 
