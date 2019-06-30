@@ -62,6 +62,23 @@
           </md-option>
         </md-select>
       </md-field>
+
+      <md-empty-state class="md-primary" v-if="feed.length === 0 && !user" md-icon="bookmarks" md-label="Nothing in Feed" md-description="Login to bookmark headlines">
+        <md-button to='/login' class="md-primary md-raised">Login</md-button>
+      </md-empty-state>
+      <md-empty-state class="md-accent" v-else-if="feed.length === 0" md-icon="bookmark_outline" md-label="Nothing in Feed" md-description="Anything you bookmark will be safely stored here">
+      </md-empty-state>
+
+      <md-list class="md-triple-line" v-else v-for="screen in feed" :key="screen.id">
+        <md-list-item>
+          <md-avatar><img :src="screen.image_url" :alt="screen.id"></md-avatar>
+          <div class="md-list-item-text">
+            <span><a :href="screen.url">{{ screen.id }}</a></span>
+            <span>View Comments</span>
+          </div>
+        </md-list-item>
+        <md-divider class="md-inset"></md-divider>
+      </md-list>
     </md-drawer>
 
     <!-- User menu -->
@@ -136,11 +153,15 @@ export default {
     },
     homeScreens() {
       return this.$store.getters.homeScreens
+    },
+    feed() {
+      return this.$store.getters.feed
     }
   },
 
   async fetch({ store }) {
     await store.dispatch('loadHomeScreens')
+    await store.dispatch('loadUserFeed')
   },
 
   methods: {

@@ -30,11 +30,15 @@ export const mutations = {
   },
   clearToken: state => (state.token = ''),
   clearUser: state => (state.user = null),
+  clearFeed: state => (state.feed = []),
   setHomeScreens(state, homeScreens) {
     state.homeScreens = homeScreens
   },
   setHomeScreen(state, homeScreen) {
     state.homeScreen = homeScreen
+  },
+  setFeed(state, homeScreens) {
+    state.feed = homeScreens
   }
 }
 
@@ -101,6 +105,22 @@ export const actions = {
     commit('clearUser')
     clearUserData()
   },
+  async loadUserFeed({ state }) {
+    if (state.user) {
+      const feedRef = db.collection(`users/${state.user.email}/feed`)
+      await feedRef.onSnapshot((hoge) => {
+        let homeScreens = []
+        hoge.forEach((doc) => {
+          homeScreens.push(doc.data())
+          this.commit('setFeed', homeScreens)
+        })
+        if (hoge.empty) {
+          homeScreens = []
+          this.commit('setFeed', homeScreens)
+        }
+      })
+    }
+  },
   uploadImage({ state }, payload) {
     firestorage.ref('home_screens/' + payload.name)
       .put(payload.file)
@@ -146,5 +166,6 @@ export const getters = {
   isAuthenticated: state => !!state.token,
   user: state => state.user,
   homeScreens: state => state.homeScreens,
-  homeScreen: state => state.homeScreen
+  homeScreen: state => state.homeScreen,
+  feed: state => state.feed
 }
