@@ -14,6 +14,9 @@
           </span>
         </md-card-header>
       </md-card>
+      <md-button @click="$router.go(-1)" class="md-fab md-fab-bottom-right md-fixed md-primary">
+        <md-icon>arrow_back</md-icon>
+      </md-button>
     </div>
   </div>
 </template>
