@@ -10,7 +10,8 @@ export const state = () => ({
   category: '',
   token: '',
   user: null,
-  screenImages: []
+  screenImages: [],
+  screenImage: null
 })
 
 export const mutations = {
@@ -28,8 +29,11 @@ export const mutations = {
   },
   clearToken: state => (state.token = ''),
   clearUser: state => (state.user = null),
-  setScreenImage(state, screenImages) {
+  setScreenImages(state, screenImages) {
     state.screenImages = screenImages
+  },
+  setScreenImage(state, screenImage) {
+    state.screenImage = screenImage
   }
 }
 
@@ -109,18 +113,28 @@ export const actions = {
         })
       })
   },
-  async loadScreenImage({ commit }) {
+  async loadScreenImages({ commit }) {
     commit('setLoading', true)
     const imageRef = await db.collection('images')
     imageRef.get().then((querySnapshot) => {
       console.log(querySnapshot)
-      const loadedScreenImage = []
+      const loadedScreenImages = []
       querySnapshot.forEach((doc) => {
-        loadedScreenImage.push(doc.data())
+        console.log(doc.id)
+        const screen = { image_url: doc.data().downloadURL, id: doc.id }
+        loadedScreenImages.push(screen)
       })
-      this.commit('setScreenImage', loadedScreenImage)
+      this.commit('setScreenImages', loadedScreenImages)
     })
     commit('setLoading', false)
+  },
+  async loadScreenImage(context, screenImagesSlug) {
+    const screenImageRef = db.collection('images').doc(screenImagesSlug)
+    await screenImageRef.get().then((doc) => {
+      console.log(doc.data())
+      const screen = { image_url: doc.data().downloadURL, id: doc.id }
+      this.commit('setScreenImage', screen)
+    })
   }
 }
 
@@ -130,5 +144,6 @@ export const getters = {
   token: state => state.token,
   isAuthenticated: state => !!state.token,
   user: state => state.user,
-  screenImages: state => state.screenImages
+  screenImages: state => state.screenImages,
+  screenImage: state => state.screenImage
 }

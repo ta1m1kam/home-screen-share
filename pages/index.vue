@@ -96,13 +96,13 @@
             <md-ripple>
               <md-card style="margin-top: 1em;" md-width-hover>
                 <md-card-media>
-                  <img :src="screen.downloadURL" alt="">
+                  <img :src="screen.image_url" alt="">
                 </md-card-media>
                 <md-card-actions>
                   <md-button class="md-icon-button">
                     <md-icon>bookmark</md-icon>
                   </md-button>
-                  <md-button class="md-icon-button">
+                  <md-button @click="saveScreenImage(screen)" class="md-icon-button">
                     <md-icon>message</md-icon>
                   </md-button>
                 </md-card-actions>
@@ -140,7 +140,7 @@ export default {
   },
 
   async fetch({ store }) {
-    await store.dispatch('loadScreenImage')
+    await store.dispatch('loadScreenImages')
   },
 
   methods: {
@@ -150,6 +150,11 @@ export default {
     logoutUser() {
       this.showRightSidepanel = false
       this.$store.dispatch('logoutUser')
+    },
+    saveScreenImage(screen) {
+      // await this.$store.dispatch('saveScreenImage'. screen).then(() =>{
+      this.$router.push(`/home-screen/${screen.id}`)
+      // })
     }
   }
 }

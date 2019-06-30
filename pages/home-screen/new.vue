@@ -22,8 +22,6 @@ export default {
       if (file) {
         const fileName = uuid()
 
-        // console.log(fileName)
-        // console.log(file)
         this.$store
           .dispatch('uploadImage', {
             name: fileName,
